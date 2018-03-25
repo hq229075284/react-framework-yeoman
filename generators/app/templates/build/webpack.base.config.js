@@ -1,8 +1,8 @@
 /*
  * @Author: 韩卿 
  * @Date: 2017-11-17 18:36:45 
- * @Last Modified by: 韩卿
- * @Last Modified time: 2018-01-25 17:52:28
+ * @Last Modified by: HANQ
+ * @Last Modified time: 2018-03-26 00:45:02
  */
 
 var path = require('path');
@@ -11,8 +11,13 @@ var isProduction = process.env.NODE_ENV === 'production'
 
 var cssLoaderConfig = (appendLoader = []) => {
   var common = [
-    { loader: 'css', options: { sourceMap: true } },
-    { loader: 'postcss', options: { sourceMap: true } }
+    { loader: 'css', options: { 
+        sourceMap: true, 
+        <% if (needCssModule) {%>modules: true,<% } %> 
+        <% if (needCssModule) {%>localIdentName: '[path][name]__[local]--[hash:4]'<% } %> 
+      } 
+    },
+    <% if (needPostCss) { %>{ loader: 'postcss', options: { sourceMap: true } } <% } %>
   ]
   if (isProduction) {
     return ExtractTextPlugin.extract({
@@ -54,7 +59,7 @@ var webpackConfig = {
             sourceMap: true,
             paths: [
               path.resolve(__dirname, "../node_modules"),
-              path.resolve(__dirname, "../src/style/test")
+              path.resolve(__dirname, "../src/style")
             ]
           }
         }])
@@ -63,14 +68,14 @@ var webpackConfig = {
         loader: 'url',
         options: {
           limit: 10000,
-          name: 'img/[name].[hash:7].[ext]'
+          name: 'img/[name].[hash:4].[ext]'
         }
       }, {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url',
         options: {
           limit: 10000,
-          name: 'font/[name].[hash:7].[ext]'
+          name: 'font/[name].[hash:4].[ext]'
         }
       }
     ]

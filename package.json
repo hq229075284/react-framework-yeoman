@@ -4,12 +4,12 @@
   "main": "index.js",
   "author": "HanQ <229075284@qq.com>",
   "license": "MIT",
-  "files": [
-  ],
+  "files": [],
   "keywords": [
     "yeoman-generator"
   ],
   "dependencies": {
+    "chalk": "^2.3.2",
     "yeoman-generator": "^2.0.3"
   }
 }

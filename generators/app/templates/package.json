@@ -77,8 +77,10 @@
     "redux-actions": "^2.2.1",
     "redux-thunk": "^2.2.0"
   },
+  <% if (needPostCss) { %>
   "browserslist": [
-    "last 2 versions",
-    ">5%"
-  ]
+      "last 2 versions",
+      ">5%"
+    ]
+  <% } %>
 }
