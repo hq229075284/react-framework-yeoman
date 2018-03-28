@@ -10,6 +10,7 @@
   ],
   "dependencies": {
     "chalk": "^2.3.2",
+    "ejs": "^2.5.8",
     "yeoman-generator": "^2.0.3"
   }
 }

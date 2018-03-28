@@ -1,21 +1,27 @@
-/*
- * @Author: huixie
- * @Date: 2017-07-25 11:24:49
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2017-11-17 11:07:09
- */
-
 import { createStore, applyMiddleware, compose } from 'redux'
+
+<% if (reduxMiddleware === 'redux-thunk') { -%>
 import thunk from 'redux-thunk'
-import { logger/* , crashReporter */ } from '@redux/store/middleware'
+<% } %>
+
+
+import { } from '@redux/store/middleware'
 import rootReducer from 'reducers'
+<% if (reduxMiddleware === 'redux-sage') { %>
+import createSagaMiddleware from 'redux-saga'
+
+const sagaMiddleware = createSagaMiddleware()
+<% } %>
 
 export default (initialState) => {
   const createStoreWithMiddleware = compose(
     applyMiddleware(
+      <% if (reduxMiddleware === 'redux-saga') { -%>
+      sagaMiddleware,
+      <% } %>
+      <% if (reduxMiddleware === 'redux-thunk') { -%>
       thunk,
-      logger,
-      // crashReporter,
+      <% } %>
     ),
     window.devToolsExtension ? window.devToolsExtension() : f => f,
   )(createStore)

@@ -20,6 +20,16 @@ module.exports = class extends Generator {
   prompting() {
     const allQuestion = [
       {
+        type: 'input',
+        name: 'title',
+        message: '项目名称',
+        default: 'HanQ-project'
+      }, {
+        type: 'input',
+        name: 'version',
+        message: '版本',
+        default: '1.0.0'
+      }, {
         type: 'list',
         name: 'technologyStack',
         message: '请选择技术栈',
@@ -74,7 +84,10 @@ module.exports = class extends Generator {
   configuring() {
     this.log(this.answers)
     if (this.answers.technologyStack === 'React') {
+      this._wirteFileTree()
       this._writeBabelrc()
+      if (this.answers.needReactRouter) this._wirteReactRouter()
+      if (this.answers.needRedux) this._wirteReactRedux()
       if (this.answers.needEslint) this._writeEslint()
       // if (this.answers.needPostCss) this._writePostCssConfig()
       this._writePackage()
@@ -93,10 +106,26 @@ module.exports = class extends Generator {
 
   end() { }
 
+  _wirteFileTree() {
+    this.fs.copy(
+      this.templatePath('src'),
+      this.destinationPath('src'),
+    )
+    this.fs.delete(this.destinationPath('src/redux'))
+    this.fs.delete(this.destinationPath('src/router3'))
+    this.fs.delete(this.destinationPath('src/router4'))
+  }
+
   _writeBuildScript() {
     this.fs.copyTpl(
       this.templatePath('build'),
       this.destinationPath('build'),
+      this.answers
+    )
+    this.fs.delete(this.destinationPath('build/webpack.base.config.ejs'))
+    this.fs.copyTpl(
+      this.templatePath('build/webpack.base.config.ejs'),
+      this.destinationPath('build/webpack.base.config.js'),
       this.answers
     )
   }
@@ -105,6 +134,28 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('.babelrc'),
       this.destinationPath('.babelrc')
+    )
+  }
+
+  _wirteReactRouter() {
+    this.fs.copyTpl(
+      this.templatePath('src/router' + this.answers.reactRouterVersion),
+      this.destinationPath('src/router'),
+      this.answers
+    )
+  }
+
+  _wirteReactRedux() {
+    this.fs.copyTpl(
+      this.templatePath('src/redux'),
+      this.destinationPath('src/redux'),
+      this.answers
+    )
+    this.fs.delete(this.destinationPath('src/redux/store/store.config.ejs'))
+    this.fs.copyTpl(
+      this.templatePath('src/redux/store/store.config.ejs'),
+      this.destinationPath('src/redux/store/store.config.js'),
+      this.answers
     )
   }
 
@@ -135,7 +186,7 @@ module.exports = class extends Generator {
 
   _writePackage() {
     this.fs.copyTpl(
-      this.templatePath('package.json'),
+      this.templatePath('package.ejs'),
       this.destinationPath('package.json'),
       this.answers
     )

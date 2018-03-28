@@ -6,8 +6,8 @@ import { } from 'antd'
 
 // @connect((storeState)=>({}))
 
-export default class <%请取名字%> extends Component {
-  static defaultProps={
+export default class AAA extends Component {
+  static defaultProps = {
   }
 
   static propTypes = {
@@ -18,22 +18,22 @@ export default class <%请取名字%> extends Component {
     this.state = {}
   }
 
-  componentWillMount() {}
+  componentWillMount() { }
 
-  componentDidMount() {}
-  
-  componentWillReceiveProps() {}
-  
-  componentWillUpdate() {}
-  
-  componentDidUpdate() {}
-  
-  componentWillUnmount() {}
+  componentDidMount() { }
+
+  componentWillReceiveProps() { }
+
+  componentWillUpdate() { }
+
+  componentDidUpdate() { }
+
+  componentWillUnmount() { }
 
   // region vscode 1.17的收缩代码块功能  业务代码
 
   /* somehandle */
-  
+
   // endregion
 
   render() {
